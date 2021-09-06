@@ -1,6 +1,8 @@
 using MediatR;
+using MediatR.Pipeline;
 using MediatRSample.Handlers;
 using MediatRSample.Models;
+using MediatRSample.Pipeline;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,7 +29,12 @@ namespace MediatRSample
         {
             services.AddControllers();
 
+            //執行順序 IRequestPreProcessor>IPipelineBehavior>IRequestPostProcessor
+            //IPipelineBehavior才需要再註冊 其他註冊一次就好
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            //services.AddTransient(typeof(IRequestPreProcessor<>), typeof(LogPreProcessor<>));
+            //services.AddTransient(typeof(IRequestPostProcessor<,>), typeof(LogPostProcessor<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehavior<,>));
 
             //重複註冊notify會執行兩次
             //services.AddMediatR(typeof(QueryUserHandler).Assembly);
