@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace MediatRSample
 {
@@ -26,8 +27,11 @@ namespace MediatRSample
         {
             services.AddControllers();
 
-            services.AddMediatR(typeof(QueryUserHandler).Assembly);
-            services.AddMediatR(typeof(CreateUserCommandHandler).Assembly);
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+
+            //重複註冊notify會執行兩次
+            //services.AddMediatR(typeof(QueryUserHandler).Assembly);
+            //services.AddMediatR(typeof(CreateUserCommandHandler).Assembly);
             services.AddScoped<ITestDbContext, TestDbContext>();
 
             services.AddSwaggerGen(c =>

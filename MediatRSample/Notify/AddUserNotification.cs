@@ -20,6 +20,8 @@ namespace MediatRSample.Notify
         public string Name { get; private set; }
     }
 
+    //INotificationHandler 是一對多 可以有多個實作 不會有回傳值
+    //屬於Event
     public class AddUserMailNotificationHandler : INotificationHandler<AddUserNotification>
     {
         public Task Handle(AddUserNotification notification, CancellationToken cancellationToken)

@@ -6,6 +6,8 @@ using MediatRSample.Notify;
 
 namespace MediatRSample.Handlers
 {
+    //IRequestHandler 只能有一個實作 可能或不會有回傳值
+    //
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
     {
         private readonly ITestDbContext _dbContext;
